@@ -55,7 +55,10 @@
 #define SELECT_R_PIN    D8 // RIGHT eye chip select pin
 #define Load    D2         // load to full fill the current requrments
 
-
+unsigned long current_time;
+unsigned long load_on_after = 3000;
+unsigned long load_off_after = 100;
+int load_flag = 0;
 
 // INPUT CONFIG (for eye motion -- enable or comment out as needed) --------
 
@@ -118,7 +121,8 @@ void setup(void) {
 
   fstart = millis()-1; // Subtract 1 to avoid divide by zero later
   pinMode(Load, OUTPUT);
-  digitalWrite(Load,HIGH); 
+  digitalWrite(Load,HIGH);
+  current_time = millis(); 
 }
 
 
@@ -217,6 +221,19 @@ void frame( // Process motion for a single frame of left or right eye
 
   Serial.print((++frames * 1000) / (millis() - fstart)); Serial.println("fps");// Show frame rate
 
+  if((millis() - current_time) > load_on_after && load_flag == 0 ){
+    digitalWrite(Load,HIGH);
+    load_flag = 1;
+    current_time = millis();
+    Serial.print("on_kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+  }
+  if((millis() - current_time) > load_off_after && load_flag == 1 ){
+    digitalWrite(Load,LOW);
+    load_flag = 0;
+    current_time = millis();
+    Serial.print("off_pppppppppppppppppppppppppppppppp");
+  }
+  
   if(++eyeIndex >= NUM_EYES) eyeIndex = 0; // Cycle through eyes, 1 per call
 
  // Autonomous X/Y eye motion
