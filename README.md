@@ -7,5 +7,3 @@ instructables :- https://www.instructables.com/Uncanny-Eye-Pendant-With-ESP8266-
 
 ______________________
 
-
-![alt text](https://content.instructables.com/F2O/W9SB/KTSXTY5P/F2OW9SBKTSXTY5P.gif?format=mp4)
